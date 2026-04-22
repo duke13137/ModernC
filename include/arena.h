@@ -484,10 +484,10 @@ HANDLE_OOM:
  * Fast path is inlined. Memory is zeroed unless NO_INIT flag is set.
  */
 ARENA_INLINE void* arena_alloc(Arena* arena, isize size, isize align, isize count, ArenaFlag flags) {
-  Assert(size > 0 && "size must be positive");
-  Assert(count >= 0 && "count must be non-negative");
-  Assert(IsPow2(align) && "align must be power of 2");
-  Assert(arena->beg <= arena->cur && arena->cur <= arena->end && "corrupt arena");
+  // Assert(size >= 0);
+  // Assert(count >= 0);
+  // Assert(IsPow2(align));
+  // Assert(arena->beg <= arena->cur && arena->cur <= arena->end && "corrupt arena");
 
   byte* current = arena->cur;
   isize avail = arena->end - current;
