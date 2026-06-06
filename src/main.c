@@ -14,7 +14,7 @@ UTEST_STATE();
 /* --- Default Thread-Local Arena --- */
 
 #ifndef DEFAULT_ARENA_SIZE
-#define DEFAULT_ARENA_SIZE MB(64)
+#define DEFAULT_ARENA_SIZE GB(64)
 #endif
 
 // Thread-local default arena
@@ -147,7 +147,6 @@ i64s test_slice(Arena* arena) {
     ALOG(arena);
     while (1) {
       char* p = New(arena, char, GB(1), OOM_NULL);
-      getchar();
       if (!p) {
         puts("!!! OOM break !!!");
         break;
@@ -155,7 +154,6 @@ i64s test_slice(Arena* arena) {
     }
   }
   ALOG(arena);
-  getchar();
 
   int64_t data[] = {2, 3, 42};
   i64s fibs = {.data = data, .len = Countof(data)};
@@ -354,9 +352,7 @@ int main(int argc, const char* argv[]) {
   ULOG(p);
   ALOG(arena);
 
-  getchar();
   arena_release(arena);
-  getchar();
 
   return utest_main(argc, argv);
 }

@@ -73,14 +73,14 @@
 
 // Platform-specific debug breakpoint
 #ifdef __clang__
-#define DEBUG_TRAP() __builtin_debugtrap();
+#define DEBUG_TRAP() __builtin_debugtrap()
 #elif defined(__x86_64__)
-#define DEBUG_TRAP() __asm__("int3; nop");
+#define DEBUG_TRAP() __asm__("int3; nop")
 #elif defined(__GNUC__)
-#define DEBUG_TRAP() __builtin_trap();
+#define DEBUG_TRAP() __builtin_trap()
 #else
 #include <signal.h>
-#define DEBUG_TRAP() raise(SIGTRAP);
+#define DEBUG_TRAP() raise(SIGTRAP)
 #endif
 
 #ifndef NDEBUG
@@ -279,8 +279,8 @@ static void arena_restore(Arena** a) {
  *
  * Usage:
  *   i64s fibs = {0};
- *   *Push(&fibs, arena) = 2;
- *   *Push(&fibs, arena) = 3;
+ *   *Push(arena, &fibs) = 2;
+ *   *Push(arena, &fibs) = 3;
  */
 #define Push(arena, slice)                                                            \
   ({                                                                                  \
@@ -374,6 +374,8 @@ ARENA_INLINE void arena_release(Arena* arena) {
   } else {
     free(arena->beg);
   }
+#else
+  free(arena->beg);
 #endif
   memset(arena, 0, sizeof(Arena));
 }
